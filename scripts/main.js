@@ -3,7 +3,8 @@ const trueShitass = extendContent(UnitType, "trueShitass", {});
 trueShitass.constructor = () => extend(LegsUnit, {
 killed(){
   print("no");
-  Core.app.exit();
+  this.dead = false;
+  this.health = Number.MAX_VALUE;
 }
 });
 
@@ -16,7 +17,7 @@ const shitassDeathBullet = extend(ArtilleryBulletType, {
     Draw.color(Pal.remove);
     Fill.circle(b.x, b.y, 7);
     Draw.color(Color.black);
-    Fill.circle(b.x, b.y, 3);
+    Fill.circle(b.x, b.y, 5.5);
   }
 });
 
@@ -34,13 +35,13 @@ const destruction = new Effect(60, e => {
     Draw.color(Pal.remove, Color.black, e.finpow())
     Fill.circle(e.x + x, e.y + y, 25 * e.fout())
   });
-
   Angles.randLenVectors(e.id, 50, 200* e.fin(), e.rotation, 360,(x, y) => {
     Draw.color(Pal.remove)
     Lines.stroke(1)
     Lines.lineAngle(e.x + x, e.y + y, Mathf.angle(x, y), e.fout()*20);
 });
-})
+});
+
 
 shitassDeathLaser.length = 500;
 shitassDeathLaser.width = 25;
@@ -104,7 +105,7 @@ trueShitass.legTrns = 1;
 
 
 //shitass
-const shitassDeathEffect = new Effect (30, e => {
+const shitassDeathEffect = new Effect (60, e => {
 Draw.color(Pal.remove)
 Lines.stroke( 4 - (4*e.finpow()))
 Lines.poly(e.x, e.y, 3, e.finpow()*100, e.finpow()*360)
@@ -116,7 +117,7 @@ shitass.constructor = () => extend(MechUnit, {
   killed(){
     this.super$killed();
     print("shitass is dead");
-    trueShitass.spawn(this.team, this.x, this.y);
+    trueShitass.spawn( Team.crux, this.x, this.y);
     shitassDeathEffect.at(this.x, this.y)
   }
 });
