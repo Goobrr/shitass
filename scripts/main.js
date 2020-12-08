@@ -91,7 +91,7 @@ shitassDeathCannon.shootSound = Sounds.explosion;
 //general shit
 trueShitass.speed = 3;
 trueShitass.health = Number.MAX_VALUE;
-trueShitass.drawCell = false;
+trueShitass.drawCell = trueShitass.canDrown = false;
 trueShitass.hitSize = 20;
 trueShitass.weapons.add(shitassDeathBlaster);
 trueShitass.weapons.add(shitassDeathCannon);
