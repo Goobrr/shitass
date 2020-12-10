@@ -1,18 +1,10 @@
-//TRUE SHITASS
-const trueShitass = extendContent(UnitType, "trueShitass", {});
-trueShitass.constructor = () => extend(LegsUnit, {
-killed(){
-  print("no");
-  this.dead = false;
-  this.health = Number.MAX_VALUE;
-}
-});
-
-
+// Weapons
 const shitassDeathBlaster = new Weapon();
 const shitassDeathCannon = new Weapon();
 const shitassDeathLauncher = new Weapon();
 const shitassHalo = new Weapon();
+
+// Bullets
 const shitassDeathLaser = extend(LaserBulletType, {});
 const shitassDeathHalo = extend(LaserBulletType, {})
 const shitassDeathMissile = extend(MissileBulletType, {
@@ -23,14 +15,15 @@ const shitassDeathMissile = extend(MissileBulletType, {
 })
 const shitassDeathBullet = extend(ArtilleryBulletType, {
   draw(b){
-    Draw.color(Color.black)
-    Fill.circle(b.x, b.y, 10)
+     Draw.color(Color.black)
+     Fill.circle(b.x, b.y, 10)
 
-    Draw.color(Pal.remove)
-    Fill.circle(b.x, b.y, 8)
-  }
+     Draw.color(Pal.remove)
+     Fill.circle(b.x, b.y, 8)
+   }
 });
 
+// Effects
 const destruction = new Effect(60, e => {
   Draw.color(Pal.remove)
   Draw.alpha( e.fout())
@@ -52,6 +45,31 @@ const destruction = new Effect(60, e => {
 });
 });
 
+const shitassDeathEffect = new Effect (60, e => {
+  Draw.color(Pal.remove)
+  Lines.stroke( 4 - (4*e.finpow()))
+  Lines.poly(e.x, e.y, 3, e.finpow()*100, e.finpow()*360)
+  Lines.poly(e.x, e.y, 3, e.finpow()*100, ( 0 - e.finpow())*360)
+});
+
+const deathBulletTrail = new Effect(20, e => {
+  Draw.color(Pal.remove)
+  Angles.randLenVectors(e.id, 4, 4, (x, y) => {
+     Fill.circle(e.x + x, e.y + y, e.fout()*2)
+  });
+});
+
+const deathMissileTrail = new Effect(20, e => {
+  Draw.color(Pal.remove, Color.black, e.fin())
+  Fill.circle(e.x, e.y, e.fout() * 5)
+})
+
+const deathLaserShoot = new Effect(20, e => {
+  Draw.color(Pal.remove)
+  Fill.circle(e.x, e.y, e.fslope() * 10)
+  Draw.color(Color.white)
+  Fill.circle(e.x, e.y, e.fslope() * 2.5)
+})
 
 shitassDeathLaser.length = 500;
 shitassDeathLaser.width = 25;
@@ -61,6 +79,7 @@ shitassDeathLaser.lifetime = 15;
 shitassDeathLaser.damage = Number.MAX_VALUE - 1;
 shitassDeathLaser.lightningColor = Pal.remove;
 shitassDeathLaser.colors = [ Pal.remove, Color.white ];
+shitassDeathLaser.shootEffect = deathLaserShoot
 
 shitassDeathHalo.length = 300;
 shitassDeathHalo.width = 25;
@@ -72,10 +91,7 @@ shitassDeathMissile.damage = Number.MAX_VALUE / 2;
 shitassDeathMissile.speed = 6;
 shitassDeathMissile.homingPower = 0.09;
 shitassDeathMissile.lifetime = 120;
-shitassDeathMissile.trailEffect = new Effect(20, e => {
-  Draw.color(Pal.remove, Color.black, e.fin())
-  Fill.circle(e.x, e.y, e.fout() * 5)
-})
+shitassDeathMissile.trailEffect = deathMissleTrail
 shitassDeathMissile.weaveMag = 0.5;
 shitassDeathMissile.hitSound = Sounds.explosion;
 shitassDeathMissile.homingRange = 640;
@@ -89,19 +105,7 @@ shitassDeathBullet.hitSound = Sounds.explosionbig;
 shitassDeathBullet.lightning = 15;
 shitassDeathBullet.lightningLength = 30;
 shitassDeathBullet.lightningColor = Pal.remove;
-shitassDeathBullet.trailEffect = new Effect(20, e => {
-  Draw.color(Pal.remove)
-  Angles.randLenVectors(e.id, 4, 4, (x, y) => {
-     Fill.circle(e.x + x, e.y + y, e.fout()*2)
-  });
-});
-
-shitassDeathLaser.shootEffect = new Effect(20, e => {
-  Draw.color(Pal.remove)
-  Fill.circle(e.x, e.y, e.fslope() * 10)
-  Draw.color(Color.white)
-  Fill.circle(e.x, e.y, e.fslope() * 2.5)
-})
+shitassDeathBullet.trailEffect = deathBulletTrail;
 
 shitassDeathBlaster.bullet = shitassDeathLaser;
 shitassDeathBlaster.firstShotDelay = 10;
@@ -116,9 +120,10 @@ shitassHalo.bullet = shitassDeathHalo;
 shitassHalo.shots = 45;
 shitassHalo.spacing = 8;
 shitassHalo.shotDelay = 1;
-shitassHalo.reload = 120;
+shitassHalo.reload = 480;
 shitassHalo.shootCone = 360;
 shitassHalo.x = shitassHalo.y = 0;
+shitassHalo.shootSound
 
 shitassDeathCannon.bullet = shitassDeathBullet;
 shitassDeathCannon.reload = 120;
@@ -139,31 +144,13 @@ shitassDeathLauncher.x = 10;
 shitassDeathLauncher.y = 0;
 shitassDeathLauncher.shootSound = Sounds.missile;
 
-
-//general shit
-trueShitass.speed = 3;
-trueShitass.health = Number.MAX_VALUE;
-trueShitass.drawCell = trueShitass.canDrown = false;
-trueShitass.hitSize = 20;
-trueShitass.weapons.add(shitassDeathBlaster);
-trueShitass.weapons.add(shitassDeathCannon);
-trueShitass.weapons.add(shitassDeathLauncher);
-trueShitass.weapons.add(shitassHalo);
-trueShitass.allowLegStep = true;
-
-//legs
-trueShitass.legCount = 6;
-trueShitass.legLength = 45;
-trueShitass.legSpeed = 0.025;
-trueShitass.legTrns = 1;
-
-
-//shitass
-const shitassDeathEffect = new Effect (60, e => {
-  Draw.color(Pal.remove)
-  Lines.stroke( 4 - (4*e.finpow()))
-  Lines.poly(e.x, e.y, 3, e.finpow()*100, e.finpow()*360)
-  Lines.poly(e.x, e.y, 3, e.finpow()*100, ( 0 - e.finpow())*360)
+const trueShitass = extendContent(UnitType, "trueShitass", {});
+trueShitass.constructor = () => extend(LegsUnit, {
+  killed(){
+    print("no");
+    this.dead = false;
+    this.health = Number.MAX_VALUE;
+  }
 });
 
 const shitass = extendContent(UnitType, "shitass", {});
@@ -176,7 +163,24 @@ shitass.constructor = () => extend(MechUnit, {
   }
 });
 
+// General shit
+trueShitass.speed = 3;
+trueShitass.health = Number.MAX_VALUE;
+trueShitass.drawCell = trueShitass.canDrown = false;
+trueShitass.hitSize = 20;
+trueShitass.weapons.add(shitassDeathBlaster);
+trueShitass.weapons.add(shitassDeathCannon);
+trueShitass.weapons.add(shitassDeathLauncher);
+trueShitass.weapons.add(shitassHalo);
+trueShitass.allowLegStep = true;
 
+// Legs
+trueShitass.legCount = 6;
+trueShitass.legLength = 45;
+trueShitass.legSpeed = 0.025;
+trueShitass.legTrns = 1;
+
+// Shitass
 shitass.speed = 0.75
 shitass.health = 420;
 shitass.hitSize = 20;
