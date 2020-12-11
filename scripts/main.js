@@ -81,7 +81,7 @@ shitassDeathLaser.lightningColor = Pal.remove;
 shitassDeathLaser.colors = [ Pal.remove, Color.white ];
 shitassDeathLaser.shootEffect = deathLaserShoot
 
-shitassDeathHalo.length = 300;
+shitassDeathHalo.length = 500;
 shitassDeathHalo.width = 25;
 shitassDeathHalo.damage = Number.MAX_VALUE - 2;
 shitassDeathHalo.lifetime = 7.5;
@@ -109,7 +109,7 @@ shitassDeathBullet.trailEffect = deathBulletTrail;
 
 shitassDeathBlaster.bullet = shitassDeathLaser;
 shitassDeathBlaster.firstShotDelay = 10;
-shitassDeathBlaster.shootSound = Sounds.laserblast;
+shitassDeathBlaster.shootSound = loadSound("deathLaser");
 shitassDeathBlaster.x = 15;
 shitassDeathBlaster.reload = 15;
 shitassDeathBlaster.mirror = shitassDeathBlaster.alternate = true;
@@ -117,13 +117,13 @@ shitassDeathBlaster.shootStatus = StatusEffects.unmoving;
 shitassDeathBlaster.shootStatusDuration = 25;
 
 shitassHalo.bullet = shitassDeathHalo;
-shitassHalo.shots = 45;
-shitassHalo.spacing = 8;
-shitassHalo.shotDelay = 1;
-shitassHalo.reload = 480;
+shitassHalo.shots = 90;
+shitassHalo.spacing = 4;
+shitassHalo.shotDelay = 0.5;
+shitassHalo.reload = 600;
 shitassHalo.shootCone = 360;
 shitassHalo.x = shitassHalo.y = 0;
-shitassHalo.shootSound
+shitassHalo.shootSound = loadSound("deathHalo");
 
 shitassDeathCannon.bullet = shitassDeathBullet;
 shitassDeathCannon.reload = 120;
@@ -160,6 +160,11 @@ shitass.constructor = () => extend(MechUnit, {
     print("shitass is dead");
     trueShitass.spawn( Team.crux, this.x, this.y);
     shitassDeathEffect.at(this.x, this.y)
+  },
+  update(){
+    this.super$update();
+    this.health = Number.MAX_VALUE;
+    this.health = Number.MAX_VALUE;
   }
 });
 
