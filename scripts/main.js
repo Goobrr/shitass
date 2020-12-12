@@ -160,12 +160,12 @@ shitass.constructor = () => extend(MechUnit, {
     print("shitass is dead");
     trueShitass.spawn( Team.crux, this.x, this.y);
     shitassDeathEffect.at(this.x, this.y)
-  },
+  }/*,
   update(){
     this.super$update();
     this.health = Number.MAX_VALUE;
     this.health = Number.MAX_VALUE;
-  }
+  }*/
 });
 
 // General shit
