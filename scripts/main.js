@@ -150,7 +150,12 @@ trueShitass.constructor = () => extend(LegsUnit, {
     print("no");
     this.dead = false;
     this.health = Number.MAX_VALUE;
-  }
+  }/*,
+  update(){
+    this.super$update();
+    this.health = Number.MAX_VALUE;
+    this.health = Number.MAX_VALUE;
+  }*/
 });
 
 const shitass = extendContent(UnitType, "shitass", {});
@@ -160,12 +165,7 @@ shitass.constructor = () => extend(MechUnit, {
     print("shitass is dead");
     trueShitass.spawn( Team.crux, this.x, this.y);
     shitassDeathEffect.at(this.x, this.y)
-  }/*,
-  update(){
-    this.super$update();
-    this.health = Number.MAX_VALUE;
-    this.health = Number.MAX_VALUE;
-  }*/
+  }
 });
 
 // General shit
