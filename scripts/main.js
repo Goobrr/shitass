@@ -20,7 +20,7 @@ const shitassDeathBullet = extend(ArtilleryBulletType, {
 
      Draw.color(Pal.remove)
      Fill.circle(b.x, b.y, 8)
-  }
+   }
 });
 
 // Effects
@@ -64,12 +64,42 @@ const deathMissileTrail = new Effect(20, e => {
   Fill.circle(e.x, e.y, e.fout() * 5)
 })
 
-const deathLaserShoot = new Effect(20, e => {
-  Draw.color(Pal.remove)
-  Fill.circle(e.x, e.y, e.fslope() * 10)
-  Draw.color(Color.white)
-  Fill.circle(e.x, e.y, e.fslope() * 2.5)
+const deathMissileHit = new Effect(30, e =>{ 
+  Angles.randLenVectors(e.id, 20, 50 * e.finpow(), 
+  e.rotation, 200, (x, y) => {
+    Draw.color(Pal.remove, Color.black, e.fin())
+    Fill.circle(e.x + x, e.y + y, e.fout()*5)
+    Lines.lineAngle(e.x + x * 2, e.y + y * 2, Mathf.angle(x, y), e.fout() * 10 );
+  });
+
+  Lines.stroke(5 - e.finpow()*5)
+  Lines.circle(e.x, e.y, e.finpow()*100)
 })
+
+const deathLaserShoot = new Effect(20, e => {
+  Draw.color(Color.black)
+  Fill.circle(e.x, e.y, 10 * e.fslope());
+
+  Angles.randLenVectors(e.id, 10, 30 - (e.finpow()*30), (x, y) => {
+    Draw.color(Color.black, Pal.remove, e.finpow())
+    Fill.circle(e.x + x, e.y + y, e.fin()*8)
+  });
+  Draw.color(Pal.remove)
+  Fill.circle(e.x, e.y, 8 * e.fslope())
+})
+
+const deathHaloShoot = new Effect(45, e => {
+  Draw.color(Pal.remove)
+  Lines.stroke(e.fout()*2)
+  Lines.poly(e.x, e.y, 3, e.fin()*100, e.fin()*360)
+  Lines.poly(e.x, e.y, 3, e.fin()*100, e.fout()*360)
+
+  Draw.alpha(1)
+  Fill.poly(e.x, e.y, 3, e.fslope()*20, e.fout()*720)
+  Fill.poly(e.x, e.y, 3, e.fslope()*20, e.fin()*360)
+});
+
+// Properties
 
 shitassDeathLaser.length = 500;
 shitassDeathLaser.width = 25;
@@ -84,6 +114,7 @@ shitassDeathLaser.shootEffect = deathLaserShoot
 shitassDeathHalo.length = 500;
 shitassDeathHalo.width = 25;
 shitassDeathHalo.damage = Number.MAX_VALUE - 2;
+shitassDeathHalo.shootEffect = deathHaloShoot;
 shitassDeathHalo.lifetime = 7.5;
 shitassDeathHalo.colors = [ Pal.remove, Color.white ];
 
@@ -95,6 +126,7 @@ shitassDeathMissile.trailEffect = deathMissileTrail
 shitassDeathMissile.weaveMag = 0.5;
 shitassDeathMissile.hitSound = Sounds.explosion;
 shitassDeathMissile.homingRange = 640;
+shitassDeathMissile.hitEffect = deathMissileHit;
 
 shitassDeathBullet.splashDamage = shitassDeathBullet.damage = Number.MAX_VALUE - 2;
 shitassDeathBullet.splashDamageRadius = 640;
@@ -144,6 +176,8 @@ shitassDeathLauncher.x = 10;
 shitassDeathLauncher.y = 0;
 shitassDeathLauncher.shootSound = Sounds.missile;
 
+// The shitasses
+
 const trueShitass = extendContent(UnitType, "trueShitass", {});
 trueShitass.constructor = () => extend(LegsUnit, {
   killed(){
@@ -151,7 +185,7 @@ trueShitass.constructor = () => extend(LegsUnit, {
     this.dead = false;
     this.health = Number.MAX_VALUE;
   }/*,
-  update(){
+update(){
     this.super$update();
     this.health = Number.MAX_VALUE;
     this.health = Number.MAX_VALUE;
@@ -179,13 +213,11 @@ trueShitass.weapons.add(shitassDeathLauncher);
 trueShitass.weapons.add(shitassHalo);
 trueShitass.allowLegStep = true;
 
-// Legs
 trueShitass.legCount = 6;
 trueShitass.legLength = 45;
 trueShitass.legSpeed = 0.025;
 trueShitass.legTrns = 1;
 
-// Shitass
 shitass.speed = 0.75
 shitass.health = 420;
 shitass.hitSize = 20;
