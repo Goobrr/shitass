@@ -53,7 +53,7 @@ const shitassDeathEffect = new Effect(60, e => {
 const deathBulletTrail = new Effect(20, e => {
   Draw.color(Pal.remove);
   Angles.randLenVectors(e.id, 4, 4, (x, y) => {
-     Fill.circle(e.x + x, e.y + y, e.fout() * 2):
+     Fill.circle(e.x + x, e.y + y, e.fout() * 2);
   });
 });
 
