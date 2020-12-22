@@ -58,7 +58,7 @@ const deathBulletTrail = new Effect(20, e => {
 });
 
 const deathMissileTrail = new Effect(20, e => {
-  Draw.color(Pal.remove, Color.black, e.fin()):
+  Draw.color(Pal.remove, Color.black, e.fin());
   Fill.circle(e.x, e.y, e.fout() * 5);
 });
 
@@ -222,7 +222,7 @@ shitass.speed = 0.75;
 shitass.health = 420;
 shitass.hitSize = 20;
 shitass.drawCell = false;
-shitass.mechLegColor = Color.valueOf("fed7aeff")
+shitass.mechLegColor = Color.valueOf("fed7aeff");
 
 /*
 //Your one and only friend, shitass.
