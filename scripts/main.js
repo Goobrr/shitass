@@ -104,15 +104,12 @@ const shitassDeathBullet = extend(ArtilleryBulletType, {
   trailEffect: Eff.deathBulletTrail
 });
 
-// Effects
-
 shitassDeathBlaster.bullet = shitassDeathLaser;
 shitassHalo.bullet = shitassDeathHalo;
 shitassDeathCannon.bullet = shitassDeathBullet;
 shitassDeathLauncher.bullet = shitassDeathMissile;
 
-// The shitasses
-
+// Shitasses
 const trueShitass = extendContent(UnitType, "trueShitass", {
   speed: 3,
   health: Number.MAX_VALUE,
