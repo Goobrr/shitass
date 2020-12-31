@@ -128,6 +128,12 @@ trueShitass.constructor = () => extend(LegsUnit, {
     print("no");
     this.dead = false;
     this.health = Number.MAX_VALUE;
+  },
+  destroy(){
+    print("no");
+  },
+  remove(){
+    print("no");
   }
 });
 
