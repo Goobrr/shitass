@@ -149,7 +149,7 @@ shitass.constructor = () => extend(MechUnit, {
   killed(){
     this.super$killed();
     print("shitass is dead");
-    trueShitass.spawn(Team.crux, this.x, this.y);
+    trueShitass.spawn(this.team, this.x, this.y);
     Eff.shitassDeathEffect.at(this.x, this.y);
   }
 });
